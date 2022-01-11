@@ -5,11 +5,12 @@ const { Contact } = require('../../models')
 const updateStatusContact = async (req, res) => {
   const { id } = req.params
   const { favorite } = req.body
-  const result = await Contact.findByIdAndUpdate(
-    id,
+  const { _id: userId } = req.user;
+  const result = await Contact.findOneAndUpdate(
+    { _id: id, owner: userId },
     { favorite },
     { new: true }
-  )
+  ).populate('owner', '_id name email')
   if (!result) {
     throw createError(404, `Contact with id=${id} not found`)
   }

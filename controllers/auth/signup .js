@@ -9,7 +9,7 @@ const signup = async (req, res) => {
     throw new Conflict(`User with ${email} already exist`)
   }
 
-  const newUser = new User({ name, email })
+  const newUser = await new User({ name, email });
   newUser.setPassword(password)
   newUser.save()
   res.status(201).json({

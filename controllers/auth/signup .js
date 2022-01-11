@@ -9,10 +9,11 @@ const signup = async (req, res) => {
   if (user) {
     throw new Conflict(`User with ${email} already exist`)
   }
-  const avatarURL = gravatar.url(email)
+  const avatarURL = gravatar.url(email, { protocol: 'https' })
+  console.log(avatarURL)
   const newUser = new User({ name, email, avatarURL })
   newUser.setPassword(password)
-  newUser.save()
+  await newUser.save();
   res.status(201).json({
     status: 'success',
     code: 201,

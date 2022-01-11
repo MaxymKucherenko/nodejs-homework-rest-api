@@ -9,9 +9,9 @@ const signup = async (req, res) => {
     throw new Conflict(`User with ${email} already exist`)
   }
 
-  const newUser = await new User({ name, email });
+  const newUser = new User({ name, email })
   newUser.setPassword(password)
-  newUser.save()
+  await newUser.save();
   res.status(201).json({
     status: 'success',
     code: 201,
